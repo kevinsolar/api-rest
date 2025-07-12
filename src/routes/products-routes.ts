@@ -1,5 +1,6 @@
-import {Router} from 'express'
-import { myMiddleware } from '../middlewares/my-middleware'
+import { Router } from "express"
+import { myMiddleware } from "../middlewares/my-middleware"
+import { ProductsController } from "../controllers/ProductsController"
 
 const productsRoutes = Router()
 
@@ -8,20 +9,13 @@ const productsRoutes = Router()
  * // app.use(myMiddleware)
  */
 
-productsRoutes.get("/:id", (req, res) => {
-	const { page, limit } = req.query
-  const {id} = req.params
+const productsController = new ProductsController()
 
-	res.send(`Página ${page} de ${limit} - ID: ${id}`)
-})
+productsRoutes.get("/", productsController.index)
 
 /*
  * Para utilizar um middleware de forma "local" ou em um só lugar:
  */
-productsRoutes.post("/products", myMiddleware, (req, res) => {
-	const { name, price } = req.body
-
-	res.status(201).json({ name, price, user_id: req.user_id })
-})
+productsRoutes.post("/products", myMiddleware, productsController.create)
 
 export { productsRoutes }
