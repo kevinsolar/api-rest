@@ -13,10 +13,10 @@ app.use(routes)
 // tratando excecoes, devem ser utilizadas essa funcoes sempre no final, antes da porta.
 app.use((error: any, request: Request, response: Response, _: NextFunction) => {
 	if (error instanceof AppError) {
-		return response.status(error.statusCode).json({ error: error.message })
+		return response.status(error.statusCode).json({ message: error.message })
 	}
 
-	response.status(500).json({ error: error.message })
+	response.status(500).json({ message: error.message })
 })
 
 app.listen(PORT, () => console.log(`Server is running at ${PORT}`))
