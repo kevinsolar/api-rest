@@ -16,6 +16,6 @@ productsRoutes.get("/", productsController.index)
 /*
  * Para utilizar um middleware de forma "local" ou em um só lugar:
  */
-productsRoutes.post("/products", myMiddleware, productsController.create)
+productsRoutes.post("/", myMiddleware, productsController.create)
 
 export { productsRoutes }
