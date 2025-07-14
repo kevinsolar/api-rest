@@ -24,8 +24,16 @@ class ProductsController {
     */
 
 		const bodySchema = z.object({
-			name: z.string(),
-			price: z.number(),
+			name: z
+				.string({ required_error: "Name is required!" })
+				.trim()
+				.min(6, { message: "Name must be 6 or more characters" }),
+			price: z
+				.number({ required_error: "Price is required!" })
+				.positive({ message: "Price must be greater than 0" }),
+
+			// Para deixar esse campo opcional, pode ser utilizado o nullish(), ex:
+			// price: z.number().nullish(),
 		})
 
 		const { name, price } = bodySchema.parse(request.body)
