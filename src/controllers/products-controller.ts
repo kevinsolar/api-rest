@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import { AppError } from "../utils/app-error"
+import { z } from "zod"
 
 class ProductsController {
 	/**
@@ -17,8 +18,19 @@ class ProductsController {
 	}
 
 	create(request: Request, response: Response) {
-		const { name, price } = request.body
+		/*
+    Antes desestrutravamos o name e o price direto da request.body, mas agora utilizaremos nosso bodySchema para isso.
+    const { name, price } = request.body
+    */
 
+		const bodySchema = z.object({
+			name: z.string(),
+			price: z.number(),
+		})
+
+		const { name, price } = bodySchema.parse(request.body)
+
+		/*
     if (!name) {
       throw new AppError("Nome do produto é obrigatorio!", 400)
     }
@@ -31,8 +43,9 @@ class ProductsController {
     if (price < 0) {
       throw new AppError("Preço não pode ser menor que 0!")
     }
- 
-    // throw new AppError("Erro interno!")
+      */
+
+		// throw new AppError("Erro interno!")
 
 		response.status(201).json({ name, price, user_id: request.user_id })
 	}
